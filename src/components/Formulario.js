@@ -1,11 +1,9 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
-const Formulario = () => {
-	const [busqueda, setBusqueda] = useState({
-		ciudad: "",
-		pais: "",
-	});
+import Error from "./Error";
 
+const Formulario = ({ busqueda, setBusqueda, setConsultar }) => {
 	const [error, setError] = useState(false);
 
 	const { ciudad, pais } = busqueda;
@@ -24,14 +22,12 @@ const Formulario = () => {
 			return;
 		}
 		setError(false);
-		console.log(error);
+		setConsultar(true);
 	};
 
 	return (
 		<form onSubmit={handleSubmit}>
-			{error ? (
-				<p className="red darken-4">Todos los campos son obligatorios</p>
-			) : null}
+			{error ? <Error mensaje="Todos los campos son obligatorios" /> : null}
 			<div className="input-field col s12">
 				<input
 					type="text"
@@ -65,6 +61,12 @@ const Formulario = () => {
 			</div>
 		</form>
 	);
+};
+
+Formulario.protoTypes = {
+	busqueda: PropTypes.object.isRequired,
+	setBusqueda: PropTypes.func.isRequired,
+	setConsultar: PropTypes.func.isRequired,
 };
 
 export default Formulario;
